@@ -18,6 +18,7 @@ class CreateUsersTable extends Migration
             
             $table->tinyInteger('type')->nullable()->comment('1 = admin, 2 = user 3 = support');
             $table->string('unique_code')->nullable();
+            $table->string('sponser_code')->nullable();
             $table->string('name')->nullable();
             $table->string('email')->unique()->nullable();
             $table->string('password')->nullable();
@@ -25,7 +26,6 @@ class CreateUsersTable extends Migration
             $table->integer('country_id')->nullable();
             $table->integer('state_id')->nullable();
             $table->string('city')->nullable();
-            $table->string('sponser_code')->nullable();
             $table->bigInteger('direct_group')->default(0);
             $table->bigInteger('total_group')->default(0);
             $table->bigInteger('level')->default(1);

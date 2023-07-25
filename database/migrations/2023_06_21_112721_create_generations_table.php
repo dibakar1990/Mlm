@@ -17,6 +17,7 @@ class CreateGenerationsTable extends Migration
             $table->id();
             $table->bigInteger('main_id')->nullable();
             $table->bigInteger('member_id')->nullable();
+            $table->bigInteger('main_sponsor_user_id')->nullable();
             $table->bigInteger('gen_type')->nullable();
             $table->tinyInteger('status')->default(1)->comment('0 = inactive, 1 = active');
             $table->timestamps();

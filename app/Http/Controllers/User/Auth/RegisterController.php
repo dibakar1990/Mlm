@@ -88,11 +88,19 @@ class RegisterController extends Controller
             $userLevelGroup = User::where('unique_code',$user->unique_code)->where('type',2)->first();
             $userLevelGroup->level_group = $checkRefCode->level;
             $userLevelGroup->save();
-
+            $data = $this->level_distribution($user->unique_code);
+            if($data){
+                $result = [];
+                foreach($data as $val){
+                    $parentUser = User::where('unique_code', $val->unique_code)->where('type', 2)->where('sponser_code','=',null)->first();
+                    $result = $parentUser;
+                }
+            }
             //generation level
             $generation = new Generation();
             $generation->main_id = $checkRefCode->id;
             $generation->member_id = $user->id;
+            $generation->main_sponsor_user_id = $result->id;
             $generation->gen_type = $userLevelGroup->level_group;
             $generation->save();
             
@@ -101,17 +109,7 @@ class RegisterController extends Controller
             $userLevelGroup->level_group = 1;
             $userLevelGroup->save();
         }
-        $data = $this->level_distribution($user->unique_code);
-        //$data = $this->levelDistribution->level_distribution($user->unique_code);
-        //if($data){
-            //$mainArray = [];
-            //$uniqueUser = User::where('unique_code',$data)->first();
-            
-            
-            //for($i = 1 ; $i < 100 && $uniqueUser->sponser_code!=null; $i++){
-                //dd($uniqueUser);
-            //}
-        //}
+        
         $activationLink = route('user.activation',['id' => encrypt($user->id)]);
         $request_sent = [
             'name' => $request->name,
@@ -125,18 +123,19 @@ class RegisterController extends Controller
      function level_distribution($unique_code)
     {
         
-        //$currentUniqueCode = $unique_code;
+        $mainArr = [];
        
          for($i = 0 ; $i < 100 && $unique_code!=null; $i++)
         //if($unique_code!=null)
         {
-           
-            $data = [];
-            $next_id = $this->find_sponser_id($unique_code);
-            $unique_code = $next_id;
-            //return $data['unique_code'] = $unique_code;
-            
+            $user = $this->find_sponser_id($unique_code);
+            $unique_code = $user->sponser_code;
+            // $next_id = $this->find_sponser_id($unique_code);
+            // $unique_code = $next_id;
+            // return $data['unique_code'] = $unique_code;
+            array_push($mainArr,$user);
         }
+        return $mainArr;
     }
 
     private function find_sponser_id($unique_code)
@@ -145,17 +144,8 @@ class RegisterController extends Controller
         $currentUser = User::where('unique_code',$unique_code)->where('type',2)->first();
         
         $sponser_code = $currentUser->sponser_code;
-       
-        //$currenSponsorUser = User::where('sponser_code',$currentUniqueCode)->where('type',2)->first();
-        //if(!empty($currenSponsorUser)){
-            // if($currentUser->sponser_code!=null){
-            //     $parentUser = User::where('unique_code',$unique_code)->where('type',2)->first();
-               
-            //     $parentUser->total_group =  $parentUser->total_group+1;
-            //     $parentUser->save();
-            // }
-        //}
-        return $sponser_code;
+        return $currentUser;
+        //return $sponser_code;
         
     }
     
