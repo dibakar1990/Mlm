@@ -196,8 +196,8 @@
             <!-- RANK AND REWARD BONUS -->
             <li>
                 <a class="has-arrow ai-icon" href="javascript:void()" aria-expanded="false">
-                    <i class="fas fa-screwdriver"></i>
-                    <span class="nav-text">Rank and Rewards</span>
+                    <i class="fas fa-trophy"></i>
+                    <span class="nav-text">Rank & Rewards</span>
                 </a>
 
                 <ul aria-expanded="false">
