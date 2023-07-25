@@ -81,6 +81,9 @@ Route::group(['middleware' => 'auth'], function () {
     //Payment QR
     Route::get('users', [UserController::class,'index'])->name('users.index');
     Route::get('user/{id}', [UserController::class,'show'])->name('user.show');
+    Route::get('active/users', [UserController::class,'active'])->name('active.users');
+    Route::get('inactive/users', [UserController::class,'inactive'])->name('inactive.users');
+    Route::get('banned/users', [UserController::class,'banned'])->name('banned.users');
 
 });
 

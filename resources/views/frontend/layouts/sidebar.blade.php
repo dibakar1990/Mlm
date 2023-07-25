@@ -31,8 +31,8 @@
                     </a>
                 </li>
                 <!-- USER -->
-                <li class="nav-item @if(request()->is('users*')){{ 'menu-open' }}@endif">
-                    <a href="" class="nav-link @if(request()->is('users*')){{ 'active' }}@endif">
+                <li class="nav-item @if(request()->is('users*') || request()->is('active*') || request()->is('inactive*') || request()->is('banned*')){{ 'menu-open' }}@endif">
+                    <a href="" class="nav-link @if(request()->is('users*') || request()->is('active*') || request()->is('inactive*') || request()->is('banned*')){{ 'active' }}@endif">
                         <i class="fas fa-users"></i>
                         <p>
                             Users
@@ -44,6 +44,24 @@
                             <a href="{{ route('users.index') }}" class="nav-link {{ request()->is('users*') ? 'active' : '' }}">
                                 <i class="fas fa-arrow-right nav-icon"></i>
                                 <p>All</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('active.users') }}" class="nav-link {{ request()->is('active*') ? 'active' : '' }}">
+                                <i class="fas fa-arrow-right nav-icon"></i>
+                                <p>Active</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('inactive.users') }}" class="nav-link {{ request()->is('inactive*') ? 'active' : '' }}">
+                                <i class="fas fa-arrow-right nav-icon"></i>
+                                <p>Inactive</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('banned.users') }}" class="nav-link {{ request()->is('banned*') ? 'active' : '' }}">
+                                <i class="fas fa-arrow-right nav-icon"></i>
+                                <p>Banned</p>
                             </a>
                         </li>
                     </ul>

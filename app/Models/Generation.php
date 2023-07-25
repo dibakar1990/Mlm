@@ -16,4 +16,9 @@ class Generation extends Model
         'gen_type',
         'status',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class,'member_id','id');
+    }
 }

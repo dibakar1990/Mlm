@@ -63,7 +63,11 @@
                           <td>{{ $value->email }}</td>
                           <td>{{ $value->phone }}</td>
                           <td>
-                          {!! ($value->status) ? '<span class="badge badge-success">Active</span>' : '<span class="badge badge-danger">Inactive</span>' !!}
+                            @if($value->deleted_at =='')
+                              {!! ($value->status) ? '<span class="badge badge-success">Active</span>' : '<span class="badge badge-danger">Inactive</span>' !!}
+                            @else
+                              <span class="badge badge-danger">Banned</span>
+                            @endif
                           </td>
                           <td>{{ Carbon\Carbon::parse($value->date_of_joning)->format('M d Y') }}</td>
             
