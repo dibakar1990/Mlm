@@ -110,4 +110,32 @@ $('body').on('click','.apply_action',function(){
     }
 });
 
+function sendMarkRequest(id = null) {
+    var markasreadUrl = $(document).find('.markasreadUrl').val();
+    return $.ajax(markasreadUrl, {
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        method: 'POST',
+        
+        data: {
+            id
+        }
+    });
+}
+$(function() {
+    $('.mark-as-read').click(function() {
+        let request = sendMarkRequest($(this).data('id'));
+        request.done(() => {
+            $(this).parents('div.timeline-panel').remove();
+        });
+    });
+    $('#mark-all').click(function() {
+        let request = sendMarkRequest();
+        request.done(() => {
+            $('div.timeline-panel').remove();
+        })
+    });
+});
+
 

@@ -76,4 +76,6 @@
             </div>
             <!-- /.modal-dialog -->
         </div>
+    <input type="hidden" class="markasreadUrl" value="{{route('admin.markNotification')}}">
+
    

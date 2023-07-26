@@ -8,12 +8,13 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use App\Mail\UserVerificationMail;
+use App\Notifications\UserRegistrationNotification;
 use App\Services\LevelDistributionWithFindSponsor;
 use App\Models\User;
 use App\Models\Country;
 use App\Models\State;
 use App\Models\Generation;
-use Mail;
+use Mail, Notification;
 
 class RegisterController extends Controller
 {
@@ -116,6 +117,16 @@ class RegisterController extends Controller
             'activationLink' => $activationLink,
         ];
         Mail::to($user->email)->send(new UserVerificationMail($request_sent));
+        $notificationDetails = [
+            'user_id' => $user->id,
+            'name' => $user->name,
+            'email' => $user->email,
+            'unique_code' => $user->unique_code,
+            'message' => 'New user has been register successfully'
+        ];
+        $receiverUser = User::where('type',1)->first();
+        Notification::send($receiverUser, new UserRegistrationNotification($notificationDetails));
+
         return redirect()->route('user.login')->with(['success' => "Registration successfully"]);
     }
 

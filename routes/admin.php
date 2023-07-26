@@ -25,6 +25,9 @@ Route::post('password/reset', 'Auth\ResetPasswordController@reset')->name('passw
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', 'DashboardController@index')->name('dashboard.index');
+    //notification
+    Route::post('/nitification/mark-as-read','Notification\NotificationController@markNotification')->name('markNotification');
+
     Route::resource('/profile','ProfileController')->only('index','update');
     Route::get('/change-password','ProfileController@change_password')->name('change.password');
     Route::post('/update-password/{id}','ProfileController@update_password')->name('update.password');
@@ -45,6 +48,9 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('/users','User\UserController')->only('index','show','destroy');
     Route::put('user/status/{id}', 'User\UserController@status')->name('users.status');
     Route::post('user/active/action', 'User\UserController@action')->name('users.active.action');
+    Route::get('active/users', 'User\UserController@active')->name('active.users');
+    Route::get('inactive/users', 'User\UserController@inactive')->name('inactive.users');
+    Route::get('banned/users', 'User\UserController@banned')->name('banned.users');
     //user trashed
     Route::resource('/user/trashed','User\TrashedController')->only('index','destroy');
     Route::post('/user/trashed/action','User\TrashedController@action')->name('user.trashed.action');

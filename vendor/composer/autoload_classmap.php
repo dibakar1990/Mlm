@@ -30,6 +30,8 @@ return array(
     'App\\Http\\Controllers\\Admin\\Payment\\TransactionController' => $baseDir . '/app/Http/Controllers/Admin/Payment/TransactionController.php',
     'App\\Http\\Controllers\\Admin\\Payment\\TrashedController' => $baseDir . '/app/Http/Controllers/Admin/Payment/TrashedController.php',
     'App\\Http\\Controllers\\Admin\\ProfileController' => $baseDir . '/app/Http/Controllers/Admin/ProfileController.php',
+    'App\\Http\\Controllers\\Admin\\Reward\\RewardController' => $baseDir . '/app/Http/Controllers/Admin/Reward/RewardController.php',
+    'App\\Http\\Controllers\\Admin\\Reward\\TrashedController' => $baseDir . '/app/Http/Controllers/Admin/Reward/TrashedController.php',
     'App\\Http\\Controllers\\Admin\\RoleController' => $baseDir . '/app/Http/Controllers/Admin/RoleController.php',
     'App\\Http\\Controllers\\Admin\\Setting\\EmailConfigurationController' => $baseDir . '/app/Http/Controllers/Admin/Setting/EmailConfigurationController.php',
     'App\\Http\\Controllers\\Admin\\Setting\\SettingController' => $baseDir . '/app/Http/Controllers/Admin/Setting/SettingController.php',

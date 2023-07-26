@@ -22,6 +22,18 @@
                             <p>All</p>
                         </a>
                     </li>
+                    <li><a href="{{route('admin.active.users')}}">
+                            <p>Active</p>
+                        </a>
+                    </li>
+                    <li><a href="{{route('admin.inactive.users')}}">
+                            <p>Inactive</p>
+                        </a>
+                    </li>
+                    <li><a href="{{route('admin.banned.users')}}">
+                            <p>Banned</p>
+                        </a>
+                    </li>
                     <li><a href="{{route('admin.trashed.index')}}">
                             <p>Trashed</p>
                         </a>

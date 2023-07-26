@@ -562,6 +562,8 @@ class ComposerStaticInit6db6708ef9973f8d5eedce67dd5e101d
         'App\\Http\\Controllers\\Admin\\Payment\\TransactionController' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/Payment/TransactionController.php',
         'App\\Http\\Controllers\\Admin\\Payment\\TrashedController' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/Payment/TrashedController.php',
         'App\\Http\\Controllers\\Admin\\ProfileController' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/ProfileController.php',
+        'App\\Http\\Controllers\\Admin\\Reward\\RewardController' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/Reward/RewardController.php',
+        'App\\Http\\Controllers\\Admin\\Reward\\TrashedController' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/Reward/TrashedController.php',
         'App\\Http\\Controllers\\Admin\\RoleController' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/RoleController.php',
         'App\\Http\\Controllers\\Admin\\Setting\\EmailConfigurationController' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/Setting/EmailConfigurationController.php',
         'App\\Http\\Controllers\\Admin\\Setting\\SettingController' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/Setting/SettingController.php',

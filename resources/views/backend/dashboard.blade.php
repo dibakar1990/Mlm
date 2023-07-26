@@ -114,7 +114,7 @@
 					</div>
                 </div>
                 <div class="col-xl-3 col-sm-6">
-                <div class="widget-stat card bg-secondary">
+                    <div class="widget-stat card bg-secondary">
                         <div class="card-body  p-4">
                             <div class="media">
                                 <span class="me-3">
@@ -145,6 +145,21 @@
                             </div>
                         </div>
 					</div>
+                </div>
+                <div class="col-xl-3 col-sm-6">
+                    <!-- <div class="widget-stat card" style="height: unset">
+                        <div class="card-body p-3 pt-2 pb-2">
+                            <div class="media ai-icon">
+                                <div class="media-body">
+                                    <p class="text-muted fs-6 mb-2">Tenants</p>
+                                    <h2 class="text-primary fs-1 mb-0">{{ 0 }}</h2>
+                                </div>
+                                <span class="text-success">
+                                    <i class="fa fa-user"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div> -->
                 </div>
                 <div class="col-xl-6 col-xxl-12">
                     <div class="card">

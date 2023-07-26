@@ -9,6 +9,58 @@
               </div>
 
               <ul class="navbar-nav header-right">
+                <li class="nav-item dropdown notification_dropdown">
+                  <a class="nav-link  ai-icon" href="#" role="button" data-bs-toggle="dropdown">
+                      <i class="flaticon-381-ring"></i>
+                      <div class="pulse-css"></div>
+                  </a>
+                  <div class="dropdown-menu dropdown-menu-end">
+                    <div id="DZ_W_Notification1" class="widget-media dz-scroll p-3" style="height:380px;">
+                      <ul class="timeline">
+                        
+                        @if(auth()->user()->unreadNotifications->count() > 0)
+                          @foreach(auth()->user()->unreadNotifications as $notification)
+                            <li>
+                              <div class="timeline-panel">
+                                
+                                <div class="media-body">
+                                  <h6 class="mb-1">{{$notification->data['message']}}</h6>
+                                  <small class="d-block">
+                                  {{ Carbon\Carbon::parse($notification->created_at)->format('d F Y - h:i A') }}
+                                    </small>
+                                </div>
+                                <div class="">
+                                  <span class="badge light badge-primary">
+                                    <button type="button" rel="tooltip" title="Mark as read" class="btn-close mark-as-read" data-id="{{ $notification->id }}" data-bs-dismiss="modal"></button>
+                                  </span>
+                                  
+                                </div>
+                              </div>
+                            </li>
+                          @endforeach
+                        @else
+                          <li>
+                              <div class="timeline-panel">
+                                
+                                <div class="media-body">
+                                  <h6 class="mb-1">There are no new notifications</h6>
+                                  <small class="d-block">
+                                  
+                                    </small>
+                                </div>
+                                <div class="">
+                                 
+                                </div>
+                              </div>
+                            </li>
+                        @endif
+                      </ul>
+                    </div>
+                      <a class="all-notification" href="#" id="mark-all">Mark all as read <i class="ti-arrow-right"></i></a>
+                  </div>
+                </li>
+                
+               
                   <li class="nav-item dropdown header-profile">
                       <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown">
                         @if(Auth::user()->avatar!='')
