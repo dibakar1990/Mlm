@@ -6,10 +6,11 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
+use App\Notifications\PaymentRequestNotification;
 use App\Services\FileService;
 use App\Models\PaymentRequest;
 use App\Models\User;
-use Auth;
+use Auth, Notification;
 
 class TransactionController extends Controller
 {
@@ -85,6 +86,16 @@ class TransactionController extends Controller
         $paymentRequest->remark = $request->remark;
         $paymentRequest->file_path = $file_path;
         $user->paymentRequest()->save($paymentRequest);
+         //send notification
+        $notificationDetails = [
+            'user_id' => $user->id,
+            'name' => $user->name,
+            'email' => $user->email,
+            'unique_code' => $user->unique_code,
+            'message' => 'New payment request created'
+        ];
+        $receiverUser = User::where('type',1)->first();
+        Notification::send($receiverUser, new PaymentRequestNotification($notificationDetails));
         return redirect()->route('user.payment.pending.request.index')->with(['success' => "Payment request send successfully"]);
     }
 

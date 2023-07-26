@@ -20,6 +20,8 @@
     <!-- Tempusdominus Bootstrap 4 -->
     <link rel="stylesheet"
         href="{{ url('frontend/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css') }}">
+        <link rel="stylesheet" href="{{ url('frontend/plugins/select2/css/select2.min.css') }}">
+<link rel="stylesheet" href="{{ url('frontend/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css')}}">
     <!-- iCheck -->
     <link rel="stylesheet" href="{{ url('frontend/plugins/icheck-bootstrap/icheck-bootstrap.min.css') }}">
     <!-- JQVMap -->

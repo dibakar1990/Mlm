@@ -135,7 +135,7 @@
                     </ul>                    
                 </li>
                 <!-- PASSBOOK -->
-                <!-- PASSBOOK -->
+                <!-- PAYMENT REQUEST -->
                 <li class="nav-item @if(request()->is('user/payment*') || request()->is('user/payment/pending*') || request()->is('user/payment/approved*') || request()->is('user/payment/canceled*') || request()->is('user/payment/request*')){{ 'menu-open' }}@endif">
                     <a href="" class="nav-link @if(request()->is('user/payment*') || request()->is('user/payment/pending*') || request()->is('user/payment/approved*') || request()->is('user/payment/canceled*') || request()->is('user/payment/request*')){{ 'active' }}@endif">
                         <i class="fas fa-cash-register"></i>
@@ -177,7 +177,35 @@
                         </li>
                     </ul>                           
                 </li>
-                <!-- PASSBOOK -->
+                <!-- PAYMENT REQUEST -->
+                <!-- SUBSCRIPTION -->
+                <li class="nav-item @if(request()->is('user/subscriptions*') || request()->is('user/subscription/create*')){{ 'menu-open' }}@endif">
+                    <a href="" class="nav-link @if(request()->is('user/subscriptions*') || request()->is('user/subscription/create*')){{ 'active' }}@endif">
+                        <i class="fas fa-subscript"></i>
+                        <p>
+                            Subscriptions
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{ route('user.subscriptions.index') }}" class="nav-link {{ request()->is('user/subscriptions*') ? 'active' : '' }}">
+                                <i class="fas fa-arrow-right nav-icon"></i>
+                                <p>All</p>
+                            </a>
+                        </li>
+                    </ul>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{ route('user.subscriptions.create') }}" class="nav-link {{ request()->is('user/subscription/create*') ? 'active' : '' }}">
+                                <i class="fas fa-arrow-right nav-icon"></i>
+                                <p>Create</p>
+                            </a>
+                        </li>
+                    </ul>
+                    
+                </li>
+                <!-- SUBSCRIPTION -->
                 
             </ul>
         </nav>

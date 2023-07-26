@@ -6,10 +6,11 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
+use App\Notifications\AddFundNotification;
 use App\Models\Fund;
 use App\Models\Passbook;
 use App\Models\User;
-use Auth;
+use Auth, Notification;
 
 class FundController extends Controller
 {
@@ -102,9 +103,19 @@ class FundController extends Controller
             $debitPassbook->debit_amount = $request->amount;
             $debitPassbook->current_balance = $currentUser->wallet_amount;
             $debitPassbook->user_id = Auth::user()->id;
-            $debitPassbook->purpose = 'Remove Fund for '.Auth::user()->name. ' by'.$user->name ;
+            $debitPassbook->purpose = 'Remove Fund for '.Auth::user()->name. ' by'.$user->name;
             $debitPassbook->save();
         }
+        //send notification
+        $notificationDetails = [
+            'user_id' => $currentUser->id,
+            'name' => $currentUser->name,
+            'email' => $currentUser->email,
+            'unique_code' => $currentUser->unique_code,
+            'message' => 'New fund add suceessfully'
+        ];
+        $receiverUser = User::where('type',1)->first();
+        Notification::send($receiverUser, new AddFundNotification($notificationDetails));
         return redirect()->route('user.funds.index')->with(['success' => "Item(s) added successfully"]);
     }
 

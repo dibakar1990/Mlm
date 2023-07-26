@@ -38,6 +38,7 @@ class RegisterController extends Controller
     public function store(Request $request)
     {
         $rules = [
+            'code' => 'required',
             'name' => 'required',
             'email' => 'required|email|unique:users,email',
             'phone' => 'required|numeric',
@@ -48,6 +49,7 @@ class RegisterController extends Controller
             'confirm_password' => 'required|same:password',
         ];
         $customMessages = [
+            'code.required' => 'This field is required',
             'name.required' => 'This field is required',
             'email.required' => 'This field is required',
             'phone.required' => 'This field is required',

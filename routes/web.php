@@ -9,6 +9,7 @@ use App\Http\Controllers\User\Auth\ForgotPasswordController;
 use App\Http\Controllers\User\Auth\ResetPasswordController;
 use App\Http\Controllers\User\Payment\PaymentQRController;
 use App\Http\Controllers\User\Payment\PassbookController;
+use App\Http\Controllers\User\Subscription\SubscriptionController;
 use App\Http\Controllers\User\Payment\FundController;
 use App\Http\Controllers\User\Payment\TransactionController;
 use App\Http\Controllers\User\UserController;
@@ -63,7 +64,11 @@ Route::group(['prefix' => 'user','middleware' => 'auth'], function () {
     //passbook
     Route::get('passbooks', [PassbookController::class,'index'])->name('user.passbooks.index');
     Route::get('passbook/{id}', [PassbookController::class,'show'])->name('user.passbook.show');
-    
+    //subscription
+    Route::get('subscriptions', [SubscriptionController::class,'index'])->name('user.subscriptions.index');
+    Route::get('subscription/create', [SubscriptionController::class,'create'])->name('user.subscriptions.create');
+    Route::post('subscription/store', [SubscriptionController::class,'store'])->name('user.subscriptions.store');
+    Route::post('/fetch/plan/amount',[SubscriptionController::class,'fetchAmount'])->name('fetchPlanAmount');
     
 });
 Route::group(['prefix' => 'user/payment','middleware' => 'auth'], function () {
