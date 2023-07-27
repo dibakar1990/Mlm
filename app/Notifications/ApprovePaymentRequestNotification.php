@@ -10,15 +10,15 @@ use Illuminate\Notifications\Notification;
 class ApprovePaymentRequestNotification extends Notification
 {
     use Queueable;
-
+    public $user;
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($notificationDetails)
     {
-        //
+        $this->user = $notificationDetails;
     }
 
     /**
@@ -29,23 +29,9 @@ class ApprovePaymentRequestNotification extends Notification
      */
     public function via($notifiable)
     {
-        return ['mail'];
+        return ['database'];
     }
-
-    /**
-     * Get the mail representation of the notification.
-     *
-     * @param  mixed  $notifiable
-     * @return \Illuminate\Notifications\Messages\MailMessage
-     */
-    public function toMail($notifiable)
-    {
-        return (new MailMessage)
-                    ->line('The introduction to the notification.')
-                    ->action('Notification Action', url('/'))
-                    ->line('Thank you for using our application!');
-    }
-
+    
     /**
      * Get the array representation of the notification.
      *
@@ -55,7 +41,11 @@ class ApprovePaymentRequestNotification extends Notification
     public function toArray($notifiable)
     {
         return [
-            //
+            'user_id' => $this->user['user_id'],
+            'name' => $this->user['name'],
+            'email' => $this->user['email'],
+            'unique_code' => $this->user['unique_code'],
+            'message' => $this->user['message']
         ];
     }
 }

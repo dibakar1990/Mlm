@@ -62,6 +62,12 @@ class TransactionController extends Controller
             $passbook->purpose = $purpose;
             $user->passbook()->save($passbook);
         }
+        if($request->status == 2){
+
+        }else{
+
+        }
+        
         if($request->status == 2)
         {
             return redirect()->back()->with('success', 'Request payment has been approved Successfully!');

@@ -98,17 +98,17 @@ class SubscriptionController extends Controller
                 $creditPassbook->user_id = $parentUser->id;
                 $creditPassbook->purpose = 'Plan Subscription direct income bonus credit to '.$parentUser->name. ' by '.$user->name;
                 $creditPassbook->save();
-                //current user amount wallet update
-                $user->wallet_amount = $user->wallet_amount - $setting->direct_bonus;
-                $user->save();
+                // //current user amount wallet update
+                // $user->wallet_amount = $user->wallet_amount - $setting->direct_bonus;
+                // $user->save();
 
-                $debitPassbook = new Passbook();
-                $debitPassbook->credit_amount = 0;
-                $debitPassbook->debit_amount = $setting->direct_bonus;
-                $debitPassbook->current_balance = $user->wallet_amount;
-                $debitPassbook->user_id = Auth::user()->id;
-                $debitPassbook->purpose = 'Plan Subscription direct income bonus debit to '.$user->name. ' by '.$parentUser->name;
-                $debitPassbook->save();
+                // $debitPassbook = new Passbook();
+                // $debitPassbook->credit_amount = 0;
+                // $debitPassbook->debit_amount = $setting->direct_bonus;
+                // $debitPassbook->current_balance = $user->wallet_amount;
+                // $debitPassbook->user_id = Auth::user()->id;
+                // $debitPassbook->purpose = 'Plan Subscription direct income bonus debit to '.$user->name. ' by '.$parentUser->name;
+                // $debitPassbook->save();
             }
             //levell distribution income
             if($levelUsers){
@@ -134,17 +134,17 @@ class SubscriptionController extends Controller
                     $creditPassbook->save();
 
                     //current user amount debit
-                    $user->wallet_amount = $user->wallet_amount - $levelBonus->amount;
-                    $user->save();
+                    // $user->wallet_amount = $user->wallet_amount - $levelBonus->amount;
+                    // $user->save();
 
-                    //debit passbook current user
-                    $debitPassbook = new Passbook();
-                    $debitPassbook->credit_amount = 0;
-                    $debitPassbook->debit_amount = $levelBonus->amount;
-                    $debitPassbook->current_balance = $user->wallet_amount;
-                    $debitPassbook->user_id = Auth::user()->id;
-                    $debitPassbook->purpose = 'Plan Subscription level income debit to '.$user->name. ' by '.$levelUser->name;
-                    $debitPassbook->save();
+                    // //debit passbook current user
+                    // $debitPassbook = new Passbook();
+                    // $debitPassbook->credit_amount = 0;
+                    // $debitPassbook->debit_amount = $levelBonus->amount;
+                    // $debitPassbook->current_balance = $user->wallet_amount;
+                    // $debitPassbook->user_id = Auth::user()->id;
+                    // $debitPassbook->purpose = 'Plan Subscription level income debit to '.$user->name. ' by '.$levelUser->name;
+                    // $debitPassbook->save();
                 }
             }
         }
