@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\User\DashboardController;
 use App\Http\Controllers\User\Auth\LoginController;
+use App\Http\Controllers\User\Notification\NotificationController;
 use App\Http\Controllers\User\Profile\ProfileController;
 use App\Http\Controllers\User\Auth\RegisterController;
 use App\Http\Controllers\User\Auth\ForgotPasswordController;
@@ -48,7 +49,8 @@ Route::post('/password/reset',[ResetPasswordController::class,'reset'])->name('p
 Route::group(['prefix' => 'user','middleware' => 'auth'], function () {
     //dashboard
     Route::get('/dashboard',[DashboardController::class,'index'])->name('user.dashboard.index');
-    
+    //notification
+    Route::post('/nitification/mark-as-read',[NotificationController::class,'markNotification'])->name('user.markNotification');
     //My profile
     
     Route::get('/profile',[ProfileController::class,'index'])->name('profile');
@@ -64,6 +66,7 @@ Route::group(['prefix' => 'user','middleware' => 'auth'], function () {
     //passbook
     Route::get('passbooks', [PassbookController::class,'index'])->name('user.passbooks.index');
     Route::get('passbook/{id}', [PassbookController::class,'show'])->name('user.passbook.show');
+    Route::get('passbook/export/csv', [PassbookController::class,'export'])->name('user.passbook.export');
     //subscription
     Route::get('subscriptions', [SubscriptionController::class,'index'])->name('user.subscriptions.index');
     Route::get('subscription/create', [SubscriptionController::class,'create'])->name('user.subscriptions.create');

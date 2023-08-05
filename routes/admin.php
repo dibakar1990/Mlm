@@ -79,6 +79,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('/funds','Payment\FundController')->only('index','create','store');
     //passbook
     Route::resource('/passbooks','Payment\PassbookController')->only('index','show');
+    Route::get('/passbooks/export/csv','Payment\PassbookController@export')->name('passbooks.export.csv');
     //global
     Route::resource('/globals','Global\GlobalController')->only('index','create','store','show','edit','update','destroy');
     Route::put('global/status/{id}', 'Global\GlobalController@status')->name('global.status');

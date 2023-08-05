@@ -37,7 +37,7 @@
             <div class="card">
               <div class="card-header">
                 <h3 class="card-title">Passbook List</h3>
-                
+                <a href="{{route('user.passbook.export')}}" class="float-right btn btn-primary btn-xs" title="CSV export"><i class="fas fa-file-csv"></i></a>
               </div>
               <!-- /.card-header -->
               <div class="card-body">
@@ -71,8 +71,13 @@
                                   
                                   <a class="dropdown-item text-muted" 
                                       href="{{route('user.passbook.show',$value->id)}}" 
-                                      title="View" >
+                                      title="View">
                                       <i class="fas fa-eye pr-1"></i> View
+                                    </a>
+                                    <a class="dropdown-item text-muted" 
+                                      href="{{route('user.passbook.export')}}" 
+                                      title="Export">
+                                      <i class="fas fa-file-csv"></i>  Export
                                     </a>
                                   
                               </div>

@@ -1,0 +1,15 @@
+dropdown-menu-lg .dropdown-item-text {
+  padding: 0.5rem 1rem;
+}
+.dropdown-item-text {
+  display: block;
+  width: 100%;
+  padding: 0.25rem 1rem;
+  clear: both;
+  font-weight: 400;
+  color: #212529;
+  text-align: inherit;
+  white-space: normal;
+  background-color: transparent;
+  border: 0;
+}

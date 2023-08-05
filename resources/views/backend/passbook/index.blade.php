@@ -23,7 +23,7 @@
                         </ol>
                     </div>
                     <div class="col-sm-6 d-flex flex-row-reverse align-items-center">
-                        
+                    
                     </div>
                 </div>
                 <!-- row -->
@@ -32,8 +32,8 @@
                     <div class="row">
                         <div class="col-12">
                             <div class="card">
-                                <div class="card-header">
-                                    
+                                <div class="card-header d-flex flex-row-reverse">
+                                    <a href="{{route('admin.passbooks.export.csv')}}" class="btn btn-primary btn-xs" title="CSV export"><i class="fas fa-file-csv"></i></a>
                                 </div>
                                 <div class="card-body">
                                     <div class="table-responsive">
@@ -69,6 +69,7 @@
                                                                 </div>
                                                                 <div class="dropdown-menu dropdown-menu-right">
                                                                 <a class="dropdown-item" href="{{route('admin.passbooks.show',['passbook' => $value->id])}}" title="View"><i class="fas fa-eye" style="color: blue;"></i> View</a>
+                                                                <a class="dropdown-item" href="{{route('admin.passbooks.export.csv')}}" title="Export"><i class="fas fa-file-csv" style="color: #363062;"></i> Export</a>
                                                                    
                                                                     
                                                                 </div>

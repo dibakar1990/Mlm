@@ -22,9 +22,11 @@ class SubscriptionController extends Controller
 {
     public function index()
     {
-        $items = Subscription::with('user','plan')->latest()->get();
+        $items = Subscription::with('user','plan')->where('user_id',Auth::user()->id)->latest()->get();        
         return view('frontend.subscription.index',compact('items'));
     }
+
+    
     
     public function create()
     {
@@ -53,98 +55,111 @@ class SubscriptionController extends Controller
         // wallet balance check for plan subscription
         if($walletAmount < $planAmount){
             return redirect()->back()->with(['error' => "Wallet amount is low please add fund"]);
-        }
-        $mainSponsorUser = Generation::where('member_id',Auth::user()->id)->first();
-        $parentUser = User::findOrFail($mainSponsorUser->main_sponsor_user_id);
-        
-        $levels = Level::where('status',1)->get();
-        $levelUsers = $this->level_distribution(Auth::user()->sponser_code,count($levels));
-        //subsciption data insert
-        $subscription = new Subscription();
-        $subscription->global_plan_id = $request->plan_id;
-        $subscription->amount = $planAmount;
-        $subscription->user_id = Auth::user()->id;
-        $subscription->save();
-        if($subscription){
-            //automation table data
-            $automation = new Automation();
-            $automation->global_plan_id = $request->plan_id;
-            $automation->user_id = Auth::user()->id;
-            $automation->type = 1;
-            $automation->save();
-            //current user wallet update
-            $user->wallet_amount = $user->wallet_amount - $planAmount;
-            $user->save();
-            //debit passbook current user
-            $debitPassbook = new Passbook();
-            $debitPassbook->credit_amount = 0;
-            $debitPassbook->debit_amount = $planAmount;
-            $debitPassbook->current_balance = $user->wallet_amount;
-            $debitPassbook->user_id = Auth::user()->id;
-            $debitPassbook->purpose = 'Plan Subscription debit '.$planAmount. ' by '.$user->name;
-            $debitPassbook->save();
-            //direct user bonus
-            if($parentUser){
-                $setting = Setting::find(1);
-                //parent user wallet update by direct bonus
-                $parentUser->wallet_amount = $parentUser->wallet_amount + $setting->direct_bonus;
-                $parentUser->save();
-                $parentUserWalletAmount = $parentUser->wallet_amount;
-                //credit passbook by parent user
-                $creditPassbook = new Passbook();
-                $creditPassbook->credit_amount = $setting->direct_bonus;
-                $creditPassbook->debit_amount = 0;
-                $creditPassbook->current_balance = $parentUser->wallet_amount;
-                $creditPassbook->user_id = $parentUser->id;
-                $creditPassbook->purpose = 'Plan Subscription direct income bonus credit to '.$parentUser->name. ' by '.$user->name;
-                $creditPassbook->save();
-                // //current user amount wallet update
-                // $user->wallet_amount = $user->wallet_amount - $setting->direct_bonus;
-                // $user->save();
-
-                // $debitPassbook = new Passbook();
-                // $debitPassbook->credit_amount = 0;
-                // $debitPassbook->debit_amount = $setting->direct_bonus;
-                // $debitPassbook->current_balance = $user->wallet_amount;
-                // $debitPassbook->user_id = Auth::user()->id;
-                // $debitPassbook->purpose = 'Plan Subscription direct income bonus debit to '.$user->name. ' by '.$parentUser->name;
-                // $debitPassbook->save();
+        }else{
+          
+            $mainSponsorUser = Generation::where('member_id',Auth::user()->id)->first();
+            if(!empty($mainSponsorUser)){
+                $parentUser = User::where('id',$mainSponsorUser->main_sponsor_user_id)->first();
             }
-            //levell distribution income
-            if($levelUsers){
-                $levelBonus = LevelBonus::where('global_plan_id',$request->plan_id)->first();
-                foreach($levelUsers as $levelUser){
-                    $distributionUser = User::where('id',$levelUser->id)->first();
-                    if($levelUser->id == $parentUser->id){
-                        $walletAmount = $parentUserWalletAmount + $levelBonus->amount;
-                    }else{
-                        $walletAmount = $levelUser->wallet_amount + $levelBonus->amount;
+            
+            $levels = Level::where('status',1)->get();
+            $levelUsers = $this->level_distribution(Auth::user()->sponser_code,count($levels));
+            //subsciption data insert
+            $subscription = new Subscription();
+            $subscription->global_plan_id = $request->plan_id;
+            $subscription->amount = $planAmount;
+            $subscription->user_id = Auth::user()->id;
+            $subscription->save();
+            if($subscription){
+                //automation table data
+                $automation = new Automation();
+                $automation->subscription_id = $subscription->id;
+                $automation->global_plan_id = $request->plan_id;
+                $automation->user_id = Auth::user()->id;
+                $automation->type = 1;
+                $automation->save();
+                //current user wallet update
+                $user->wallet_amount = $user->wallet_amount - $planAmount;
+                $user->save();
+                //debit passbook current user
+                $debitPassbook = new Passbook();
+                $debitPassbook->credit_amount = 0;
+                $debitPassbook->debit_amount = $planAmount;
+                $debitPassbook->current_balance = $user->wallet_amount;
+                $debitPassbook->user_id = Auth::user()->id;
+                $debitPassbook->purpose = 'Plan Subscription debit '.$planAmount. ' by '.$user->name;
+                $debitPassbook->save();
+
+                // global autamation level income
+                $previousSubcriptionUserIDS = Subscription::where('id', '<', $subscription->id)->orderBy('id','desc')->groupBy('user_id')->pluck('user_id');
+                $globalLevelSubscriptionUser = User::whereIn('id',$previousSubcriptionUserIDS)->orderBy('id','desc')->get();
+               //echo '<pre>';print_r($globalLevelSubscriptionUser);
+                
+                if($globalLevelSubscriptionUser){
+                    $pattern = [];
+                    for($i = 1; $i < count($globalLevelSubscriptionUser); $i=$i*3) {
+                        $pattern[$i] = $i;
                     }
-                    //distributor user update wallet
-                    $distributionUser->wallet_amount = $walletAmount;
-                    $distributionUser->save();
-
-                    //credit passbook distributor user
+                    $j = 1;
+                    $series = [];
+                    for($i = $j; $i < count($globalLevelSubscriptionUser); $i=$i*3) {
+                        
+                        $start_index = [];
+                        for($k = 1; $k <= $i; $k++){
+                            
+                            if(isset($globalLevelSubscriptionUser[$j - 1])) {
+                                $start_index[$k] = $globalLevelSubscriptionUser[$j - 1];
+                                $j++;
+                            }
+                            
+                        }
+                        
+                        $series[$i] = $start_index;
+            
+                    }
+                    //dd($series);
+                }
+                
+                //direct user bonus
+                if(!empty($parentUser)){
+                    $setting = Setting::find(1);
+                    //parent user wallet update by direct bonus
+                    $parentUser->wallet_amount = $parentUser->wallet_amount + $setting->direct_bonus;
+                    $parentUser->save();
+                    $parentUserWalletAmount = $parentUser->wallet_amount;
+                    //credit passbook by parent user
                     $creditPassbook = new Passbook();
-                    $creditPassbook->credit_amount = $levelBonus->amount;
+                    $creditPassbook->credit_amount = $setting->direct_bonus;
                     $creditPassbook->debit_amount = 0;
-                    $creditPassbook->current_balance = $distributionUser->wallet_amount;
-                    $creditPassbook->user_id = $levelUser->id;
-                    $creditPassbook->purpose = 'Plan Subscription level income credit to '.$levelUser->name. ' by '.$user->name;
+                    $creditPassbook->current_balance = $parentUser->wallet_amount;
+                    $creditPassbook->user_id = $parentUser->id;
+                    $creditPassbook->purpose = 'Plan Subscription direct income bonus credit to '.$parentUser->name. ' by '.$user->name;
                     $creditPassbook->save();
+                }
+                //levell distribution income
+                if($levelUsers){
+                    $levelBonus = LevelBonus::where('global_plan_id',$request->plan_id)->first();
+                    foreach($levelUsers as $levelUser){
+                        $distributionUser = User::where('id',$levelUser->id)->first();
+                        if($levelUser->id == $parentUser->id){
+                            $walletAmount = $parentUserWalletAmount + $levelBonus->amount;
+                        }else{
+                            $walletAmount = $levelUser->wallet_amount + $levelBonus->amount;
+                        }
+                        //distributor user update wallet
+                        $distributionUser->wallet_amount = $walletAmount;
+                        $distributionUser->save();
 
-                    //current user amount debit
-                    // $user->wallet_amount = $user->wallet_amount - $levelBonus->amount;
-                    // $user->save();
-
-                    // //debit passbook current user
-                    // $debitPassbook = new Passbook();
-                    // $debitPassbook->credit_amount = 0;
-                    // $debitPassbook->debit_amount = $levelBonus->amount;
-                    // $debitPassbook->current_balance = $user->wallet_amount;
-                    // $debitPassbook->user_id = Auth::user()->id;
-                    // $debitPassbook->purpose = 'Plan Subscription level income debit to '.$user->name. ' by '.$levelUser->name;
-                    // $debitPassbook->save();
+                        //credit passbook distributor user
+                        $creditPassbook = new Passbook();
+                        $creditPassbook->credit_amount = $levelBonus->amount;
+                        $creditPassbook->debit_amount = 0;
+                        $creditPassbook->current_balance = $distributionUser->wallet_amount;
+                        $creditPassbook->user_id = $levelUser->id;
+                        $creditPassbook->purpose = 'Plan Subscription level income credit to '.$levelUser->name. ' by '.$user->name;
+                        $creditPassbook->save();
+                        
+                    }
                 }
             }
         }

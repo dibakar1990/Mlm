@@ -35,7 +35,7 @@
     <!-- summernote -->
     <link rel="stylesheet" href="{{ url('frontend/plugins/summernote/summernote-bs4.min.css') }}">
     <!-- <link rel="stylesheet" href="{{url('frontend/dist/css/main.css')}}"> -->
-    <!-- <link rel="stylesheet" href="{{url('frontend/dist/css/custom.css')}}"> -->
+    <link rel="stylesheet" href="{{url('frontend/dist/css/custom.css')}}">
     <link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/css/bootstrap4-toggle.min.css"
         rel="stylesheet">
     

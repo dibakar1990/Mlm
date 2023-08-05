@@ -5,9 +5,11 @@ namespace App\Http\Controllers\Admin\Payment;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
+use App\Notifications\ApprovePaymentRequestNotification;
 use App\Models\PaymentRequest;
 use App\Models\Passbook;
 use App\Models\User;
+use Notification;
 
 class TransactionController extends Controller
 {
@@ -63,11 +65,22 @@ class TransactionController extends Controller
             $user->passbook()->save($passbook);
         }
         if($request->status == 2){
-
+            $msg = 'Hi, '.$user->name. ' your payment request has been approved';
         }else{
-
+            $msg = 'Hi, '.$user->name. ' your payment request has been canceled';
         }
+
+        //send notification
+        $notificationDetails = [
+            'user_id' => $user->id,
+            'name' => $user->name,
+            'email' => $user->email,
+            'unique_code' => $user->unique_code,
+            'message' => $msg
+        ];
         
+        Notification::send($user, new ApprovePaymentRequestNotification($notificationDetails));
+
         if($request->status == 2)
         {
             return redirect()->back()->with('success', 'Request payment has been approved Successfully!');

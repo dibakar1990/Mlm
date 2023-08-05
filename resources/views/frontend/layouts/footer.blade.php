@@ -83,7 +83,7 @@
         </div>
       </div>
     </div>
-
+    <input type="hidden" class="markasreadUrl" value="{{route('user.markNotification')}}">
 <!-- jQuery -->
 <script src="{{url('frontend/plugins/jquery/jquery.min.js')}}"></script>
 <!-- jQuery UI 1.11.4 -->

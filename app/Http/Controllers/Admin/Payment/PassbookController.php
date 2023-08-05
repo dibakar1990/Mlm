@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin\Payment;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Passbook;
+use App\Exports\UsersPassbookExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class PassbookController extends Controller
 {
@@ -35,5 +37,10 @@ class PassbookController extends Controller
         return view('backend.passbook.view', compact(
             'data'
         ));
+    }
+
+    public function export()
+    {
+        return Excel::download(new UsersPassbookExport, 'statement.xlsx');
     }
 }

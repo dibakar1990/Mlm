@@ -15,6 +15,7 @@ class CreateAutomationsTable extends Migration
     {
         Schema::create('automations', function (Blueprint $table) {
             $table->id();
+            $table->tinyInteger('subscription_id')->nullable();
             $table->tinyInteger('user_id')->nullable();
             $table->tinyInteger('global_plan_id')->nullable();
             $table->tinyInteger('type')->nullable()->comment('1 = user plan subscription, 2 = Others');

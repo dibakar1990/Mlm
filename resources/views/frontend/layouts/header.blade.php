@@ -14,25 +14,29 @@
           <i class="far fa-bell"></i>
           <span class="badge badge-warning navbar-badge"></span>
         </a>
-        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-          <span class="dropdown-item dropdown-header">15 Notifications</span>
+        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right" id="mydiv">
+          <span class="dropdown-item dropdown-header">{{auth()->user()->unreadNotifications->count()}} Notifications</span>
+          @if(auth()->user()->unreadNotifications->count() > 0)  
+            @foreach(auth()->user()->unreadNotifications as $notification)
+              <div class="dropdown-divider"></div>
+                <div class="remove">
+                  <a href="javascript:void(0);" class="dropdown-item mark-as-read" data-id="{{ $notification->id }}" style="white-space: normal !important;">
+                    {{$notification->data['message']}}
+                    <span class="float-right text-muted text-sm">
+                    {{ Carbon\Carbon::parse($notification->created_at)->format('d F Y - h:i A') }}
+                    </span>
+                  </a>
+                </div>
+            @endforeach
+          @else
+              <div class="dropdown-divider"></div>
+                <a href="javascript:void(0);" class="dropdown-item-text">
+                  There are no new notifications
+                </a>
+          @endif
+          
           <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item">
-            <i class="fas fa-envelope mr-2"></i> 4 new messages
-            <span class="float-right text-muted text-sm">3 mins</span>
-          </a>
-          <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item">
-            <i class="fas fa-users mr-2"></i> 8 friend requests
-            <span class="float-right text-muted text-sm">12 hours</span>
-          </a>
-          <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item">
-            <i class="fas fa-file mr-2"></i> 3 new reports
-            <span class="float-right text-muted text-sm">2 days</span>
-          </a>
-          <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
+            <a href="#" class="dropdown-item dropdown-footer" id="mark-all">Mark all as read </a>
         </div>
       </li>
       <li class="nav-item">
