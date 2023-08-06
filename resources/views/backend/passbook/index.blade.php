@@ -34,7 +34,9 @@
                             <div class="card">
                                 <div class="card-header d-flex flex-row-reverse">
                                     <a href="{{route('admin.passbooks.export.csv')}}" class="btn btn-primary btn-xs" title="CSV export"><i class="fas fa-file-csv"></i></a>
+                                    <a href="{{route('admin.passbooks.pdf.generate')}}" class="btn btn-primary btn-xs" title="PDF" style="margin-left:775px !important;"><i class="fas fa-file-pdf"></i></a>
                                 </div>
+                                
                                 <div class="card-body">
                                     <div class="table-responsive">
                                         <table id="example4" class="display" style="min-width: 845px">
@@ -70,6 +72,7 @@
                                                                 <div class="dropdown-menu dropdown-menu-right">
                                                                 <a class="dropdown-item" href="{{route('admin.passbooks.show',['passbook' => $value->id])}}" title="View"><i class="fas fa-eye" style="color: blue;"></i> View</a>
                                                                 <a class="dropdown-item" href="{{route('admin.passbooks.export.csv')}}" title="Export"><i class="fas fa-file-csv" style="color: #363062;"></i> Export</a>
+                                                                <a class="dropdown-item" href="{{route('admin.passbooks.pdf.generate')}}" title="PDF"><i class="fas fa-file-pdf" style="color: #363062;"></i> PDF</a>
                                                                    
                                                                     
                                                                 </div>

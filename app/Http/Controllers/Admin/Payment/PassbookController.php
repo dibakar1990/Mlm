@@ -5,8 +5,10 @@ namespace App\Http\Controllers\Admin\Payment;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Passbook;
+use App\Models\Setting;
 use App\Exports\UsersPassbookExport;
 use Maatwebsite\Excel\Facades\Excel;
+use PDF;
 
 class PassbookController extends Controller
 {
@@ -42,5 +44,20 @@ class PassbookController extends Controller
     public function export()
     {
         return Excel::download(new UsersPassbookExport, 'statement.xlsx');
+    }
+
+    public function generatePdf()
+    {
+        $setting = Setting::find(1);
+        $datums = Passbook::with('user')
+            ->latest()
+            ->get();
+  
+        
+            $pdf = PDF::loadView('pdf.passbook',compact('datums','setting'));
+            //download the pdf file
+            //return $pdf->download('statement.pdf');
+            //view the pdf file
+            return $pdf->stream('statement.pdf');
     }
 }
