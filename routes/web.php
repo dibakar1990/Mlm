@@ -67,6 +67,7 @@ Route::group(['prefix' => 'user','middleware' => 'auth'], function () {
     Route::get('passbooks', [PassbookController::class,'index'])->name('user.passbooks.index');
     Route::get('passbook/{id}', [PassbookController::class,'show'])->name('user.passbook.show');
     Route::get('passbook/export/csv', [PassbookController::class,'export'])->name('user.passbook.export');
+    Route::get('passbook/pdf/statement', [PassbookController::class,'generatePdf'])->name('user.passbook.pdf');
     //subscription
     Route::get('subscriptions', [SubscriptionController::class,'index'])->name('user.subscriptions.index');
     Route::get('subscription/create', [SubscriptionController::class,'create'])->name('user.subscriptions.create');

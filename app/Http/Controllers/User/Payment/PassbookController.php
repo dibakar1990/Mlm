@@ -7,7 +7,8 @@ use Illuminate\Http\Request;
 use App\Exports\UserPassbookExport;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Models\Passbook;
-use Auth;
+use App\Models\Setting;
+use Auth, PDF;
 
 class PassbookController extends Controller
 {
@@ -37,6 +38,22 @@ class PassbookController extends Controller
     public function export()
     {
         return Excel::download(new UserPassbookExport, 'statement.xlsx');
+    }
+
+    public function generatePdf()
+    {
+        $setting = Setting::find(1);
+        $datums = Passbook::with('user')
+            ->where('user_id',Auth::user()->id)
+            ->latest()
+            ->get();
+  
+        
+            $pdf = PDF::loadView('pdf.passbook',compact('datums','setting'));
+            //download the pdf file
+            //return $pdf->download('statement.pdf');
+            //view the pdf file
+            return $pdf->stream('statement.pdf');
     }
 
     
