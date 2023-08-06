@@ -27,7 +27,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', 'DashboardController@index')->name('dashboard.index');
     //notification
     Route::post('/nitification/mark-as-read','Notification\NotificationController@markNotification')->name('markNotification');
-
+    Route::resource('/notifications','Notification\NotificationController')->only('index','destroy');
+    
     Route::resource('/profile','ProfileController')->only('index','update');
     Route::get('/change-password','ProfileController@change_password')->name('change.password');
     Route::post('/update-password/{id}','ProfileController@update_password')->name('update.password');

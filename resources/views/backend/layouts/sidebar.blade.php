@@ -228,6 +228,20 @@
                 </ul>
             </li>
             <!-- RANK AND REWARD BONUS -->
+            <!-- NOTIFICATION -->
+            <li>
+                <a class="has-arrow ai-icon" href="javascript:void()" aria-expanded="false">
+                    <i class="flaticon-381-ring"></i>
+                    <span class="nav-text">Notifications</span>
+                </a>
+                <ul aria-expanded="false">
+                    <li><a href="{{route('admin.notifications.index')}}">
+                            <p>All</p>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <!-- NOTIFICATION -->
             <!--MASTERS-->
                 <li><a class="has-arrow ai-icon" href="javascript:void()" aria-expanded="false">
                     <i class="flaticon-381-settings-7"></i>
