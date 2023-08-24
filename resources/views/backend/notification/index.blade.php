@@ -49,6 +49,7 @@
                                                     <th> Name</th>
                                                     <th>Email </th>
                                                     <th>Message </th>
+                                                    <th>Date </th>
                                                     <th>Action </th>
                                                 </tr>
                                             </thead>
@@ -67,6 +68,7 @@
                                                         <td>
                                                         {{ $value->data['message'] }}
                                                         </td>
+                                                        <td>{{ Carbon\Carbon::parse($value->created_at)->format('d F Y h:i A') }}</td>
                                                         <td>
                                                             <div class="dropdown ms-auto text-right" style="cursor: pointer;">
                                                                 <div class="btn-link" data-bs-toggle="dropdown">
